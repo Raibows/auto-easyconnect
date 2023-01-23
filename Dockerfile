@@ -1,4 +1,6 @@
-FROM battalion7244/sysuvpn:0.0
+# just a copy of hagb/docker-easyconnect:7.6.7
+# should be compatible with other versions, like 7.6.3
+FROM battalion7244/auto-easyconnect:base-7.6.7
 
 
 RUN sed -i s/deb.debian.org/mirrors.tuna.tsinghua.edu.cn/ /etc/apt/sources.list && \

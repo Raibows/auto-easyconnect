@@ -1,11 +1,5 @@
 #!/bin/bash
 
-docker pull battalion7244/sysuvpn:0.1
-
-if [ -d "${HOME}/.ecdata" ]; then
-    echo "you have to delete ${HOME}/.ecdata first"
-    sudo rm -rf $HOME/.ecdata
-fi
 # ------------config---start----------------
 LOGIN_URL="address_of_easyconnect_authentication"
 EC_USER="your_username_for_login_easy_connect"
@@ -18,6 +12,22 @@ ADDR_HTTP="127.0.0.1:8888"
 SOCKS_USER="username_for_socks5"
 SOCKS_PASSWD="password_for_socks5"
 # ------------config---end----------------
+
+
+if [ -z "${1}" ]; then
+    echo "you don't pass the TOTP AUTH code"
+else
+    AUTH="${1}"
+fi
+
+echo -e "the TOTP AUTH code=${AUTH}\nmake sure it can outlive more than 20 seconds"
+
+
+if [ -d "${HOME}/.ecdata" ]; then
+    echo "you have to delete ${HOME}/.ecdata first"
+    sudo rm -rf $HOME/.ecdata
+fi
+
 
 echo "VNC ${ADDR_VNC} DEFAULT PASSWORD=xxxx"
 echo "SOCKS5 ${ADDR_SOCKS}"
@@ -34,4 +44,4 @@ docker run --device /dev/net/tun --cap-add NET_ADMIN -ti -e PASSWORD=xxxx \
 -p "${ADDR_VNC}:5901" \
 -p "${ADDR_SOCKS}:1080" \
 -p "${ADDR_HTTP}:8888" \
-battalion7244/sysuvpn:0.1
+battalion7244/auto-easyconnect:latest
